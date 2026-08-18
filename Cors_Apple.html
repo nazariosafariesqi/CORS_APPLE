@@ -1,0 +1,14 @@
+fetch("https://p11-buy.itunes.apple.com/payment/userSigned/GoPay?result=success&clientType=is&creditType=ADGP&safariid=ExternalPaymentVerificationController&iso3CountryCode=IDN&appInstalled=1&context=edit&isMobile=true&partnerToken=1787058395565-778534825&redirectUrl=ams-sdu%253A%252F%252F%253Fbundle%253Dcom.apple.Preferences&success=true&userId=+62xxxxxxx9239&profileId=01-7482224826d54996825c7f15b9b1959f-25",
+    {
+        credentials: "include"
+    }
+)
+.then(async response => {
+    console.log("STATUS:", response.status);
+    console.log("URL:", response.url);
+    console.log("TYPE:", response.type);
+    console.log("BODY:", await response.text());
+})
+.catch(error => {
+    console.error("CORS ERROR:", error);
+});
