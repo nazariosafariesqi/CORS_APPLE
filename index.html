@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CORS Test</title>
+</head>
+
+<body>
+    <h2>CORS Test</h2>
+    <button onclick="testCORS()">TEST</button>
+
+    <pre id="result">Belum dites.</pre>
+
+    <script>
+        async function testCORS() {
+
+            const target =
+                "https://p11-buy.itunes.apple.com/payment/userSigned/GoPay" +
+                "?result=success" +
+                "&clientType=is" +
+                "&creditType=SHPY" +
+                "&safariid=ExternalPaymentVerificationController" +
+                "&iso3CountryCode=IDN" +
+                "&appInstalled=1" +
+                "&context=edit" +
+                "&isMobile=true";
+
+            const result = document.getElementById("result");
+
+            try {
+
+                const response = await fetch(target, {
+                    method: "GET",
+                    credentials: "include"
+                });
+
+                const body = await response.text();
+
+                result.textContent =
+                    "REQUEST BERHASIL\n\n" +
+                    "Status: " + response.status + "\n" +
+                    "Response Type: " + response.type + "\n" +
+                    "Final URL: " + response.url + "\n\n" +
+                    "Response Body:\n" +
+                    body;
+
+            } catch (error) {
+
+                result.textContent =
+                    "REQUEST GAGAL / CORS BLOCKED\n\n" +
+                    error;
+            }
+        }
+    </script>
+</body>
+</html>
